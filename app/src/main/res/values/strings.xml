@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">Mayur Victoria</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_search">Search</string>
+    <string-array name="site_array">
+        <item></item>
+        <item>MyVictoria</item>
+        <item>Campus Map</item>
+        <item>BlackBoard</item>
+        <item>Overheard @ Vic</item>
+        <item>Student Allocator</item>
+        <item>Metlink</item>
+        <item>StudyLink</item>
+        <item>When is My Lecture?</item>
+        <item>Study Room Booking</item>
+        <item>Settings</item>
+    </string-array>
+    <string-array name="websites">
+        <item>https://my.vuw.ac.nz/cp/home/displaylogin</item>
+        <item></item>
+        <item>https://blackboard.vuw.ac.nz/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_1_1</item>
+        <item>https://www.facebook.com/groups/overheardvic/</item>
+        <item>https://student-sa.victoria.ac.nz/Authentication/Login.aspx?ReturnUrl=%2fStudent.aspx</item>
+        <item>http://m.metlink.org.nz</item>
+        <item>http://www.studylink.govt.nz</item>
+        <item></item>
+        <item>https://library.victoria.ac.nz/roombooking/edit_entry.php</item>
+        <item></item>
+    </string-array>
+    <string-array name="profile_dialog">
+        <item>Choose a photo</item>
+        <item>Take a photo</item>
+        <item>Remove Photo</item>
+    </string-array>
+
+    <string name="wifi_connected">Wifi Connected!</string>
+    <string name="lost_connection">Lost Connection</string>
+
+    <string name="drawer_open">Open site drawer</string>
+    <string name="drawer_close">Close site drawer</string>
+    <string name="header_title">Mayur Panchal</string>
+    <string name="header_subtitle">panchal.mayur2@gmail.com</string>
+    <string name="no_username">Username Here</string>
+    <string name="no_password">Password Here</string>
+    <string name="no_subtitle">Subtitle Here</string>
+    <string name="uni_subline_settings">for the University Website</string>
+    <string name="app_subline_settings">for this app</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="profile_dialog_title">Profile Photo</string>
+</resources>

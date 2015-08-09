@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Login Stuff"
+        android:key="login">
+         <EditTextPreference
+             android:title="Username"
+             android:summary="@string/uni_subline_settings"
+             android:key="username"
+             android:defaultValue=""
+             android:inputType="textEmailAddress"/>
+
+        <EditTextPreference
+            android:title="Password"
+            android:summary="@string/uni_subline_settings"
+            android:key="password"
+            android:defaultValue=""
+            android:inputType="textPassword"/>
+        <EditTextPreference
+            android:title="Profile Subtitle"
+            android:key="subtitle"
+            android:summary="@string/app_subline_settings"
+            android:defaultValue=""
+            android:inputType="textEmailSubject"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

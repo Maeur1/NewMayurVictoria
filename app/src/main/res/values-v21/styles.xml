@@ -1,0 +1,15 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:colorPrimaryDark">@color/vic_dark_green</item>
+        <item name="android:colorPrimary">@color/vic_light_green</item>
+        <item name="android:textColorPrimary">@color/vic_dark_green</item>
+        <item name="android:textColorPrimaryInverse">@color/text_white</item>
+        <item name="android:navigationBarColor">@color/vic_dark_green</item>
+    </style>
+
+</resources>
