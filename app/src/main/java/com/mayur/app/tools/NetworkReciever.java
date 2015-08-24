@@ -3,11 +3,16 @@ package com.mayur.app.tools;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.widget.Toast;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 
-import com.mayur.app.R;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Mayur on 9/08/2015.
@@ -16,29 +21,46 @@ public class NetworkReciever extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        ConnectivityManager conn = (ConnectivityManager)
-                context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = conn.getActiveNetworkInfo();
-
-        // Checks the user prefs and the network connection. Based on the result, decides whether
-        // to refresh the display or keep the current display.
-        // If the userpref is Wi-Fi only, checks to see if the device has a Wi-Fi connection.
-        if (networkInfo != null && networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-            // If device has its Wi-Fi connection, sets refreshDisplay
-            // to true. This causes the display to be refreshed when the user
-            // returns to the app.
-            Toast.makeText(context, R.string.wifi_connected, Toast.LENGTH_SHORT).show();
-
-            // If the setting is ANY network and there is a network connection
-            // (which by process of elimination would be mobile), sets refreshDisplay to true.
-        } else if (networkInfo != null) {
-
-            // Otherwise, the app can't download content--either because there is no network
-            // connection (mobile or Wi-Fi), or because the pref setting is WIFI, and there
-            // is no Wi-Fi connection.
-            // Sets refreshDisplay to false.
-        } else {
-            Toast.makeText(context, R.string.lost_connection, Toast.LENGTH_SHORT).show();
+        WifiInfo info = intent.getParcelableExtra(WifiManager.EXTRA_WIFI_INFO);
+        if(info != null) {
+            String ssid = info.getSSID();
+            if (ssid.equals("victoria")) {
+                postData();
+            }
         }
+    }
+
+    public void postData() {
+        // Create a new HttpClient and Post Header
+        try {
+            URL url = new URL("http://wireless page");
+
+            Map<String,Object> params = new HashMap<>();
+            params.put("name", "Freddie the Fish");
+            params.put("email", "fishie@seamail.example.com");
+            params.put("reply_to_thread", 10394);
+
+            StringBuilder postData = new StringBuilder();
+            for (Map.Entry<String,Object> param : params.entrySet()) {
+                if (postData.length() != 0) postData.append('&');
+                postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
+                postData.append('=');
+                postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
+            }
+            byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
+            conn.setDoOutput(true);
+            conn.getOutputStream().write(postDataBytes);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
