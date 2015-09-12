@@ -41,7 +41,6 @@ public class InternetFragment extends Fragment {
     }
 
 
-
     public boolean close(){
         if(internet.getUrl().contains("wireless")){
             return true;
