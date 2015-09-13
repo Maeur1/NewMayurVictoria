@@ -5,12 +5,13 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:text="Child"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lblListItem"
         android:textSize="17sp"
         android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:textColor="#000000"/>
+        android:textColor="@color/vic_dark_green"
+        android:paddingBottom="5dp"/>
 
 </LinearLayout>

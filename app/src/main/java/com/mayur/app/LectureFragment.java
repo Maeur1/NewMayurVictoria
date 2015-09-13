@@ -66,7 +66,7 @@ public class LectureFragment extends Fragment implements View.OnClickListener{
         if (!s.matches("") && s.length() > 3) {
             searchLecture();
             return true;
-        } else if (s.length() < 5) {
+        } else if (s.length() < 4) {
             listDataHeader.clear();
             listDataChild.clear();
             response.setText("Please enter at least 4 characters.");
