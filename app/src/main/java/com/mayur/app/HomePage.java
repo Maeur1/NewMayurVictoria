@@ -162,7 +162,7 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
     }
 
     private boolean hasInternet() {
-        boolean haveConnectedWifi = false;
+        boolean haveConnectedWifi = true;
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo[] netInfo = cm.getAllNetworkInfo();
         for (NetworkInfo ni : netInfo) {
@@ -216,7 +216,7 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
         try {
             photoFile = createImageFile();
         } catch (IOException ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
         // Continue only if the File was successfully created
         if (photoFile != null) {
