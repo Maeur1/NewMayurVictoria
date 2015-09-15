@@ -34,5 +34,6 @@
         android:layout_gravity="left|start"
         android:choiceMode="singleChoice"
         android:divider="@null"
+        android:background="@color/vic_light_green"
         />
 </android.support.v4.widget.DrawerLayout>
