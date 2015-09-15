@@ -162,9 +162,10 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
     }
 
     private boolean hasInternet() {
-        boolean haveConnectedWifi = true;
+        boolean haveConnectedWifi = false;
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        cm.setNetworkPreference(ConnectivityManager.TYPE_WIFI);
         for (NetworkInfo ni : netInfo) {
             if (ni.getTypeName().equalsIgnoreCase("WIFI")) {
                 haveConnectedWifi = false;
@@ -173,7 +174,7 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
                     haveConnectedWifi = true;
                 }
             }
-            if (ni.getTypeName().equalsIgnoreCase("MOBILE")) {
+            if(ni.getTypeName().equalsIgnoreCase("MOBILE")){
                 haveConnectedWifi = true;
             }
         }
