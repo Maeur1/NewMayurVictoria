@@ -1,4 +1,4 @@
-package com.mayur.app;
+package com.myvictoria.app;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -45,7 +45,7 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Fragment webview = getFragmentManager().findFragmentById(R.id.content_frame);
+        Fragment webview = getFragmentManager().findFragmentById(com.myvictoria.app.R.id.content_frame);
         if (webview instanceof InternetFragment) {
             ((InternetFragment) webview).internet.reload();
         }
@@ -55,13 +55,13 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_home_page, menu);
+        inflater.inflate(com.myvictoria.app.R.menu.menu_home_page, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public void onBackPressed() {
-        Fragment webview = getFragmentManager().findFragmentById(R.id.content_frame);
+        Fragment webview = getFragmentManager().findFragmentById(com.myvictoria.app.R.id.content_frame);
         if (webview instanceof InternetFragment) {
             if (((InternetFragment) webview).close()) {
                 finish();
@@ -74,16 +74,16 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_page);
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setContentView(com.myvictoria.app.R.layout.activity_home_page);
+        toolbar = (Toolbar) findViewById(com.myvictoria.app.R.id.tool_bar);
         setSupportActionBar(toolbar);
 
-        mSiteTitles = getResources().getStringArray(R.array.site_array);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (RecyclerView) findViewById(R.id.left_drawer);
+        mSiteTitles = getResources().getStringArray(com.myvictoria.app.R.array.site_array);
+        mDrawerLayout = (DrawerLayout) findViewById(com.myvictoria.app.R.id.drawer_layout);
+        mDrawerList = (RecyclerView) findViewById(com.myvictoria.app.R.id.left_drawer);
 
         // set a custom shadow that overlays the main content when the drawer opens
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        mDrawerLayout.setDrawerShadow(com.myvictoria.app.R.drawable.drawer_shadow, GravityCompat.START);
         // improve performance by indicating the list if fixed size.
         mDrawerList.setHasFixedSize(true);
         mDrawerList.setLayoutManager(new LinearLayoutManager(this));
@@ -94,10 +94,10 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
         mDrawerList.setAdapter(new SiteAdapter(mSiteTitles,
                 this,
                 (pref.getString("profile", "none").equals("none"))?
-                        Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.ic_contact_picture):
+                        Uri.parse("android.resource://" + getPackageName() + "/" + com.myvictoria.app.R.drawable.ic_contact_picture):
                 Uri.parse(pref.getString("profile", "none")),
-                pref.getString("username", getString(R.string.no_username)),
-                pref.getString("subtitle", getString(R.string.no_subtitle))));
+                pref.getString("username", getString(com.myvictoria.app.R.string.no_username)),
+                pref.getString("subtitle", getString(com.myvictoria.app.R.string.no_subtitle))));
         // enable ActionBar app icon to behave as action to toggle nav drawer
 
         // ActionBarDrawerToggle ties together the the proper interactions
@@ -106,8 +106,8 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
                 toolbar,
-                R.string.drawer_open,  /* "open drawer" description for accessibility */
-                R.string.drawer_close  /* "close drawer" description for accessibility */
+                com.myvictoria.app.R.string.drawer_open,  /* "open drawer" description for accessibility */
+                com.myvictoria.app.R.string.drawer_close  /* "close drawer" description for accessibility */
         ) {
             public void onDrawerClosed(View view) {
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
@@ -126,31 +126,27 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
         } else {
             fragmentManager = getFragmentManager();
             FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.content_frame, getFragmentManager().findFragmentByTag("MAIN_FRAGMENT"));
+            ft.replace(com.myvictoria.app.R.id.content_frame, getFragmentManager().findFragmentByTag("MAIN_FRAGMENT"));
         }
     }
 
     private void selectItem(int position) {
         // update the main content by replacing fragments
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
-        String website = getResources().getStringArray(R.array.websites)[position];
-        WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-        WifiInfo info = wifiManager.getConnectionInfo();
-        if (!hasInternet() && info.getSSID().contains("victoria")) {
-            ft.replace(R.id.content_frame, InternetFragment.newInstance("https://wireless.victoria.ac.nz/fs/customwebauth/login.html"), "MAIN_FRAGMENT");
-        } else if (!website.isEmpty()) {
-            ft.replace(R.id.content_frame, InternetFragment.newInstance(website), "MAIN_FRAGMENT");
+        ft.setCustomAnimations(com.myvictoria.app.R.anim.slide_in_right, com.myvictoria.app.R.anim.slide_out_left);
+        String website = getResources().getStringArray(com.myvictoria.app.R.array.websites)[position];
+        if (!website.isEmpty()) {
+            ft.replace(com.myvictoria.app.R.id.content_frame, InternetFragment.newInstance(website), "MAIN_FRAGMENT");
         } else {
             switch (position) {
                 case 1:
-                    ft.replace(R.id.content_frame, new MapFragment(), "MAIN_FRAGMENT");
+                    ft.replace(com.myvictoria.app.R.id.content_frame, new MapFragment(), "MAIN_FRAGMENT");
                     break;
                 case 7:
-                    ft.replace(R.id.content_frame, new LectureFragment(), "MAIN_FRAGMENT");
+                    ft.replace(com.myvictoria.app.R.id.content_frame, new LectureFragment(), "MAIN_FRAGMENT");
                     break;
                 case 9:
-                    ft.replace(R.id.content_frame, new SettingsFragment(), "MAIN_FRAGMENT");
+                    ft.replace(com.myvictoria.app.R.id.content_frame, new SettingsFragment(), "MAIN_FRAGMENT");
                     break;
             }
         }
@@ -185,8 +181,8 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
     public void onClick(View view, int position) {
         if (position == 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(getString(R.string.profile_dialog_title));
-            builder.setItems(R.array.profile_dialog, new DialogInterface.OnClickListener() {
+            builder.setTitle(getString(com.myvictoria.app.R.string.profile_dialog_title));
+            builder.setItems(com.myvictoria.app.R.array.profile_dialog, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == 0) {
@@ -198,7 +194,7 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
                     }
                 }
             });
-            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(com.myvictoria.app.R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
@@ -231,9 +227,9 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
         pref.edit().remove("profile").apply();
         mDrawerList.setAdapter(new SiteAdapter(mSiteTitles,
                 this,
-                Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.ic_contact_picture),
-                pref.getString("username", getString(R.string.no_username)),
-                pref.getString("subtitle", getString(R.string.no_subtitle))));
+                Uri.parse("android.resource://" + getPackageName() + "/" + com.myvictoria.app.R.drawable.ic_contact_picture),
+                pref.getString("username", getString(com.myvictoria.app.R.string.no_username)),
+                pref.getString("subtitle", getString(com.myvictoria.app.R.string.no_subtitle))));
     }
 
     private void openGallery() {
@@ -254,8 +250,8 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
                 mDrawerList.setAdapter(new SiteAdapter(mSiteTitles,
                         this,
                         selectedImage,
-                        pref.getString("username", getString(R.string.no_username)),
-                        pref.getString("subtitle", getString(R.string.no_subtitle))));
+                        pref.getString("username", getString(com.myvictoria.app.R.string.no_username)),
+                        pref.getString("subtitle", getString(com.myvictoria.app.R.string.no_subtitle))));
             }
         } else if(requestCode == 2){
             Uri selectedImage = Uri.fromFile(new File(mCurrentPhotoPath));
@@ -265,8 +261,8 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
             mDrawerList.setAdapter(new SiteAdapter(mSiteTitles,
                     this,
                     selectedImage,
-                    pref.getString("username", getString(R.string.no_username)),
-                    pref.getString("subtitle", getString(R.string.no_subtitle))));
+                    pref.getString("username", getString(com.myvictoria.app.R.string.no_username)),
+                    pref.getString("subtitle", getString(com.myvictoria.app.R.string.no_subtitle))));
         }
     }
 
@@ -296,10 +292,10 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
         mDrawerList.setAdapter(new SiteAdapter(mSiteTitles,
                 this,
                 (pref.getString("profile", "none").equals("none"))?
-                        Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.ic_contact_picture):
+                        Uri.parse("android.resource://" + getPackageName() + "/" + com.myvictoria.app.R.drawable.ic_contact_picture):
                         Uri.parse(pref.getString("profile", "none")),
-                pref.getString("username", getString(R.string.no_username)),
-                pref.getString("subtitle", getString(R.string.no_subtitle))));
+                pref.getString("username", getString(com.myvictoria.app.R.string.no_username)),
+                pref.getString("subtitle", getString(com.myvictoria.app.R.string.no_subtitle))));
         // enable ActionBar app icon to behave as action to toggle nav drawer
 
         // ActionBarDrawerToggle ties together the the proper interactions
@@ -308,8 +304,8 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
                 toolbar,
-                R.string.drawer_open,  /* "open drawer" description for accessibility */
-                R.string.drawer_close  /* "close drawer" description for accessibility */
+                com.myvictoria.app.R.string.drawer_open,  /* "open drawer" description for accessibility */
+                com.myvictoria.app.R.string.drawer_close  /* "close drawer" description for accessibility */
         ) {
             public void onDrawerClosed(View view) {
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()

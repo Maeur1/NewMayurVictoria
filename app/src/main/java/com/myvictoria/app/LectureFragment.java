@@ -1,4 +1,4 @@
-package com.mayur.app;
+package com.myvictoria.app;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -16,8 +16,6 @@ import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
-
-import com.mayur.app.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;

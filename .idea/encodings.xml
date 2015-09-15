@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/mayur/app/ExpandedListAdapter.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/mayur/app/InternetFragment.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/mayur/app/LectureFragment.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/mayur/app/MapFragment.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/mayur/app/SettingsFragment.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/myvictoria/app/ExpandedListAdapter.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/myvictoria/app/InternetFragment.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/myvictoria/app/LectureFragment.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/myvictoria/app/MapFragment.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/myvictoria/app/SettingsFragment.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/anim" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/karori_map.jpg" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/kelburn_map.jpg" charset="windows-1252" />

@@ -1,24 +1,25 @@
-package com.mayur.app.tools;
+package com.myvictoria.app.tools;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import android.net.NetworkRequest;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.mayur.app.R;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -40,6 +41,25 @@ public class NetworkReciever extends BroadcastReceiver {
             String ssid = info.getSSID();
             if (ssid.equals("\"victoria\"")) {
                 Log.d("INFO", "Victoria Wifi Detected");
+                ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                Network[] networks = new Network[0];
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    networks = connectivityManager.getAllNetworks();
+                }
+                NetworkInfo networkInfo = null;
+                Network wifi;
+                for (int i = 0; i < networks.length; i++){
+                    wifi = networks[i];
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        networkInfo = connectivityManager.getNetworkInfo(wifi);
+                    }
+                    if ((networkInfo.getType() == ConnectivityManager.TYPE_WIFI) && (networkInfo.getState().equals(NetworkInfo.State.CONNECTED))) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            ConnectivityManager.setProcessDefaultNetwork(wifi);
+                        }
+                        break;
+                    }
+                }
                 AutoLoginTask a = new AutoLoginTask();
                 a.execute();
             }

@@ -1,6 +1,5 @@
-package com.mayur.app;
+package com.myvictoria.app;
 
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.mayur.app.R;
 
 /**
  * Created by Mayur on 8/08/2015.

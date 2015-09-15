@@ -1,4 +1,4 @@
-package com.mayur.app;
+package com.myvictoria.app;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
@@ -10,7 +10,7 @@ public class SettingsFragment extends PreferenceFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.preferences);
+        addPreferencesFromResource(com.myvictoria.app.R.xml.preferences);
     }
 
 

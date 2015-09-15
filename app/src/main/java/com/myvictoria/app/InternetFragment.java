@@ -1,4 +1,4 @@
-package com.mayur.app;
+package com.myvictoria.app;
 
 import android.app.Activity;
 import android.app.DownloadManager;
@@ -76,9 +76,9 @@ public class InternetFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_internet, container, false);
-        prog = (ProgressBar) view.findViewById(R.id.progressBar);
-        internet = (WebView) view.findViewById(R.id.webview);
+        View view = inflater.inflate(com.myvictoria.app.R.layout.fragment_internet, container, false);
+        prog = (ProgressBar) view.findViewById(com.myvictoria.app.R.id.progressBar);
+        internet = (WebView) view.findViewById(com.myvictoria.app.R.id.webview);
         WebSettings ws = internet.getSettings();
         ws.setLoadsImagesAutomatically(true);
         ws.setJavaScriptEnabled(true);
@@ -142,35 +142,35 @@ public class InternetFragment extends Fragment {
                 pref = PreferenceManager.getDefaultSharedPreferences(ac);
                 if (url.equals("https://my.vuw.ac.nz/cp/home/displaylogin")) {
                     view.loadUrl("javascript:document.getElementById('pass').value = '"
-                            + pref.getString("password", getString(R.string.no_password))
+                            + pref.getString("password", getString(com.myvictoria.app.R.string.no_password))
                             + "';document.getElementById('user').value= '"
-                            + pref.getString("username", getString(R.string.no_username))
+                            + pref.getString("username", getString(com.myvictoria.app.R.string.no_username))
                             + "';login();");
                 } else if (url.equals("https://blackboard.vuw.ac.nz/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_1_1")) {
                     view.loadUrl("javascript:document.getElementById('password').value = '"
-                            + pref.getString("password", getString(R.string.no_password))
+                            + pref.getString("password", getString(com.myvictoria.app.R.string.no_password))
                             + "';document.getElementById('user_id').value = '"
-                            + pref.getString("username", getString(R.string.no_username))
+                            + pref.getString("username", getString(com.myvictoria.app.R.string.no_username))
                             + "';document.getElementsByClassName('submit button-1')[0].click();");
                 } else if (url.contains("https://student-sa.victoria.ac.nz/Authentication/Login.aspx?ReturnUrl=%2fStudent.asp")) {
                     view.loadUrl("javascript:document.getElementsByName('ctl00$MainContent$password')[0].value = '"
-                            + pref.getString("password", getString(R.string.no_password))
+                            + pref.getString("password", getString(com.myvictoria.app.R.string.no_password))
                             + "';document.getElementsByName('ctl00$MainContent$userName')[0].value = '"
-                            + pref.getString("username", getString(R.string.no_username))
+                            + pref.getString("username", getString(com.myvictoria.app.R.string.no_username))
                             + "';document.getElementById('ctl00_MainContent_doLogin').click();");
                 } else if (url.equals("https://library.victoria.ac.nz/roombooking/edit_entry.php")) {
                     view.loadUrl("javascript:if(document.getElementById('NewUserName')!=null){document.getElementsByName('NewUserPassword')[0].value = '"
-                            + pref.getString("password", getString(R.string.no_password))
+                            + pref.getString("password", getString(com.myvictoria.app.R.string.no_password))
                             + "';document.getElementsByName('NewUserName')[0].value = '"
-                            + pref.getString("username", getString(R.string.no_username))
+                            + pref.getString("username", getString(com.myvictoria.app.R.string.no_username))
                             + "';document.getElementsByClassName('submit')[0].click();" +
                             "}");
                 } else if (url.contains("wireless")) {
                     Log.d("WIRELESS ADDRESS", view.getUrl());
                     view.loadUrl("javascript:document.getElementById('password').value = '"
-                            + pref.getString("password", getString(R.string.no_password))
+                            + pref.getString("password", getString(com.myvictoria.app.R.string.no_password))
                             + "';document.getElementById('username').value = '"
-                            + pref.getString("username", getString(R.string.no_username))
+                            + pref.getString("username", getString(com.myvictoria.app.R.string.no_username))
                             + "';document.getElementsByClassName('button')[0].click();");
                 } else if (!found) {
                     orginUrl = url;
