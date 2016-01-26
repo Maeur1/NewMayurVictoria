@@ -87,6 +87,8 @@ public class LectureFragment extends Fragment implements View.OnClickListener{
         strings.clear();
         final ProgressDialog ringProgressDialog= ProgressDialog.show(getActivity(), "Please wait...", "Searching for Lectures...", true);
         AsyncTask<String, Void, ArrayList<String>> task = new AsyncTask<String, Void, ArrayList<String>>() {
+            boolean malformed_data = false;
+
             @Override
             protected ArrayList<String> doInBackground(String... params) {
                 InputStream inputStream = getResources().openRawResource(R.raw.classdata);
@@ -98,11 +100,15 @@ public class LectureFragment extends Fragment implements View.OnClickListener{
                     while ((s = b.readLine()) != null) {
                         String[] parts = s.split("\\t");
                         if (parts[0].contains(search.toUpperCase())) {
-                            type = parts[1];
-                            day = parts[2];
-                            start = parts[3];
-                            end = parts[4];
-                            room = parts[5];
+                            if(parts.length < 8){
+                                malformed_data = true;
+                                break;
+                            }
+                            type = parts[2];
+                            day = parts[4];
+                            start = parts[5];
+                            end = parts[6];
+                            room = parts[7];
                             String helper = day;
                             for (int i = 0; i < day.length(); i++) {
                                 char c = day.charAt(i);
@@ -156,7 +162,12 @@ public class LectureFragment extends Fragment implements View.OnClickListener{
                 } else {
                     listAdapter = new ExpandedListAdapter(getActivity().getApplicationContext(), listDataHeader, listDataChild);
                     expListView.setAdapter(listAdapter);
-                    response.setVisibility(View.GONE);
+                    if(malformed_data){
+                        response.setText("Some classes returned with incorrect data");
+                        response.setVisibility(View.VISIBLE);
+                    }else {
+                        response.setVisibility(View.GONE);
+                    }
                     expListView.setVisibility(View.VISIBLE);
                 }
                 ringProgressDialog.dismiss();

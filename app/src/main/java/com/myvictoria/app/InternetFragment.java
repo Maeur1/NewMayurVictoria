@@ -117,7 +117,7 @@ public class InternetFragment extends Fragment {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if(url.endsWith(".pdf") || url.endsWith(".pptx")) {
+            if(url.endsWith(".pdf") || url.endsWith(".pptx") || url.endsWith(".ppt")) {
                 DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
                 request.allowScanningByMediaScanner();
                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);

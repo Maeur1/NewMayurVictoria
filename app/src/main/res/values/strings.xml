@@ -46,6 +46,13 @@
     <string name="uni_subline_settings">for the University Website</string>
     <string name="app_subline_settings">for this app</string>
 
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="next">Next</string>
+    <string name="welcome">Log in with your My Victoria Username and Password</string>
+
+    <string name="navigation_help">You can view all the tabs by either swiping in from the left, or by tapping the three lines</string>
+
     <string name="cancel">Cancel</string>
     <string name="profile_dialog_title">Profile Photo</string>
 </resources>

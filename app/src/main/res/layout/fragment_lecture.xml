@@ -1,64 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
     <EditText
+        android:id="@+id/etInput"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:id="@+id/etInput"
-        android:gravity="center"
         android:layout_below="@+id/tvInfo"
         android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:imeOptions="actionSend"
         android:inputType="textCapCharacters"
-        android:maxLines="1"
-        android:imeOptions="actionSend"/>
+        android:maxLines="1" />
 
     <Button
+        android:id="@+id/bSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hmmmm?"
-        android:id="@+id/bSubmit"
         android:layout_below="@+id/etInput"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:text="Hmmmm?" />
 
     <TextView
+        android:id="@+id/tvInfo"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="When is my next lecture for:"
-        android:id="@+id/tvInfo"
-        android:textSize="25sp"
-        android:gravity="center"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="43dp" />
+        android:layout_marginTop="43dp"
+        android:gravity="center"
+        android:text="When is my next lecture for:"
+        android:textSize="25sp" />
 
     <TextView
-        android:gravity="center"
+        android:id="@+id/tvResponse"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvResponse"
-        android:layout_marginTop="33dp"
-        android:layout_alignParentBottom="true"
         android:layout_below="@+id/bSubmit"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:paddingTop="10dp"
-        android:paddingBottom="40dp"/>
+        android:layout_marginTop="0dp"
+        android:gravity="center"
+        android:paddingBottom="40dp"
+        android:paddingTop="10dp" />
 
-        <ExpandableListView
-            android:gravity="center"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/lvExp"
-            android:padding="10sp"
-            android:layout_marginTop="33dp"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@+id/bSubmit"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:paddingTop="10dp"
-            android:paddingBottom="40dp"/>
+    <ExpandableListView
+        android:id="@+id/lvExp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/bSubmit"
+        android:layout_marginTop="33dp"
+        android:gravity="center"
+        android:padding="10sp"
+        android:paddingBottom="40dp"
+        android:paddingTop="10dp" />
+
 </RelativeLayout>

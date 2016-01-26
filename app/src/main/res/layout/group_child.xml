@@ -11,7 +11,7 @@
         android:id="@+id/lblListItem"
         android:textSize="17sp"
         android:paddingTop="5dp"
-        android:textColor="@color/vic_dark_green"
+        android:textColor="@color/secondary_text_default_material_light"
         android:paddingBottom="5dp"/>
 
 </LinearLayout>

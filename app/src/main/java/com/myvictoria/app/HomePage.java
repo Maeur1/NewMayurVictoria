@@ -4,15 +4,10 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -45,7 +40,7 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Fragment webview = getFragmentManager().findFragmentById(com.myvictoria.app.R.id.content_frame);
+        Fragment webview = getFragmentManager().findFragmentById(R.id.content_frame);
         if (webview instanceof InternetFragment) {
             ((InternetFragment) webview).internet.reload();
         }
@@ -55,13 +50,13 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(com.myvictoria.app.R.menu.menu_home_page, menu);
+        inflater.inflate(R.menu.menu_home_page, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public void onBackPressed() {
-        Fragment webview = getFragmentManager().findFragmentById(com.myvictoria.app.R.id.content_frame);
+        Fragment webview = getFragmentManager().findFragmentById(R.id.content_frame);
         if (webview instanceof InternetFragment) {
             if (((InternetFragment) webview).close()) {
                 finish();
@@ -72,33 +67,52 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
     }
 
     @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if(getFragmentManager().findFragmentByTag("MAIN_FRAGMENT") == null){
+            fragmentManager = getFragmentManager();
+            selectItem(0);
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.myvictoria.app.R.layout.activity_home_page);
-        toolbar = (Toolbar) findViewById(com.myvictoria.app.R.id.tool_bar);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        //This is to make sure that the drawer updates with new username, if the user changes it
+        pref.registerOnSharedPreferenceChangeListener(this);
+        //Check if the user needs to setup the app for first time use
+        if(pref.getBoolean("SETUP_REQUIRED", true)){
+            Intent i = new Intent(this, Setup.class);
+            startActivity(i);
+        }
+
+        //Setup the home page
+        setContentView(R.layout.activity_home_page);
+
+        //Setup the toolbar at the top, for the Support ActionBar
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
 
-        mSiteTitles = getResources().getStringArray(com.myvictoria.app.R.array.site_array);
-        mDrawerLayout = (DrawerLayout) findViewById(com.myvictoria.app.R.id.drawer_layout);
-        mDrawerList = (RecyclerView) findViewById(com.myvictoria.app.R.id.left_drawer);
+        //This is for the drawer setup, like creating the list of side drawer items
+        mSiteTitles = getResources().getStringArray(R.array.site_array);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (RecyclerView) findViewById(R.id.left_drawer);
 
         // set a custom shadow that overlays the main content when the drawer opens
-        mDrawerLayout.setDrawerShadow(com.myvictoria.app.R.drawable.drawer_shadow, GravityCompat.START);
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // improve performance by indicating the list if fixed size.
         mDrawerList.setHasFixedSize(true);
         mDrawerList.setLayoutManager(new LinearLayoutManager(this));
 
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        pref.registerOnSharedPreferenceChangeListener(this);
         // set up the drawer's list view with items and click listener
         mDrawerList.setAdapter(new SiteAdapter(mSiteTitles,
                 this,
                 (pref.getString("profile", "none").equals("none"))?
-                        Uri.parse("android.resource://" + getPackageName() + "/" + com.myvictoria.app.R.drawable.ic_contact_picture):
+                        Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.ic_contact_picture):
                 Uri.parse(pref.getString("profile", "none")),
-                pref.getString("username", getString(com.myvictoria.app.R.string.no_username)),
-                pref.getString("subtitle", getString(com.myvictoria.app.R.string.no_subtitle))));
-        // enable ActionBar app icon to behave as action to toggle nav drawer
+                pref.getString("username", getString(R.string.no_username)),
+                pref.getString("subtitle", getString(R.string.no_subtitle))));
 
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the sliding drawer and the action bar app icon
@@ -106,8 +120,8 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
                 toolbar,
-                com.myvictoria.app.R.string.drawer_open,  /* "open drawer" description for accessibility */
-                com.myvictoria.app.R.string.drawer_close  /* "close drawer" description for accessibility */
+                R.string.drawer_open,  /* "open drawer" description for accessibility */
+                R.string.drawer_close  /* "close drawer" description for accessibility */
         ) {
             public void onDrawerClosed(View view) {
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
@@ -117,36 +131,42 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
+
+        //Set the drawer to be listened to by the drawer
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
+        //Check if we need to reload the original item that was already selected
         if (savedInstanceState == null) {
+            //Start on the MyVictoria Portal
             fragmentManager = getFragmentManager();
             selectItem(0);
         } else {
+            //Otherwise start on what was already remembered
             fragmentManager = getFragmentManager();
             FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(com.myvictoria.app.R.id.content_frame, getFragmentManager().findFragmentByTag("MAIN_FRAGMENT"));
+            ft.replace(R.id.content_frame, getFragmentManager().findFragmentByTag("MAIN_FRAGMENT"));
+            ft.commit();
         }
     }
 
     private void selectItem(int position) {
-        // update the main content by replacing fragments
+        // update the main content by replacing fragments, I know this is really crappy
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.setCustomAnimations(com.myvictoria.app.R.anim.slide_in_right, com.myvictoria.app.R.anim.slide_out_left);
-        String website = getResources().getStringArray(com.myvictoria.app.R.array.websites)[position];
+        ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
+        String website = getResources().getStringArray(R.array.websites)[position];
         if (!website.isEmpty()) {
-            ft.replace(com.myvictoria.app.R.id.content_frame, InternetFragment.newInstance(website), "MAIN_FRAGMENT");
+            ft.replace(R.id.content_frame, InternetFragment.newInstance(website), "MAIN_FRAGMENT");
         } else {
             switch (position) {
                 case 1:
-                    ft.replace(com.myvictoria.app.R.id.content_frame, new MapFragment(), "MAIN_FRAGMENT");
+                    ft.replace(R.id.content_frame, new MapFragment(), "MAIN_FRAGMENT");
                     break;
                 case 7:
-                    ft.replace(com.myvictoria.app.R.id.content_frame, new LectureFragment(), "MAIN_FRAGMENT");
+                    ft.replace(R.id.content_frame, new LectureFragment(), "MAIN_FRAGMENT");
                     break;
                 case 9:
-                    ft.replace(com.myvictoria.app.R.id.content_frame, new SettingsFragment(), "MAIN_FRAGMENT");
+                    ft.replace(R.id.content_frame, new SettingsFragment(), "MAIN_FRAGMENT");
                     break;
             }
         }
@@ -157,32 +177,13 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
-    private boolean hasInternet() {
-        boolean haveConnectedWifi = false;
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-        cm.setNetworkPreference(ConnectivityManager.TYPE_WIFI);
-        for (NetworkInfo ni : netInfo) {
-            if (ni.getTypeName().equalsIgnoreCase("WIFI")) {
-                haveConnectedWifi = false;
-                NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
-                if (ni.isConnected() && activeNetworkInfo != null) {
-                    haveConnectedWifi = true;
-                }
-            }
-            if(ni.getTypeName().equalsIgnoreCase("MOBILE")){
-                haveConnectedWifi = true;
-            }
-        }
-        return haveConnectedWifi;
-    }
-
     @Override
     public void onClick(View view, int position) {
         if (position == 0) {
+            //They have tapped the top profile picture
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(getString(com.myvictoria.app.R.string.profile_dialog_title));
-            builder.setItems(com.myvictoria.app.R.array.profile_dialog, new DialogInterface.OnClickListener() {
+            builder.setTitle(getString(R.string.profile_dialog_title));
+            builder.setItems(R.array.profile_dialog, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == 0) {
@@ -194,7 +195,7 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
                     }
                 }
             });
-            builder.setNegativeButton(com.myvictoria.app.R.string.cancel, new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
@@ -202,18 +203,21 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
             });
             builder.create().show();
         } else {
+            //They have tapped a item from the drawer
             selectItem(position - 1);
         }
     }
 
     private void openCamera() {
+        //This stuff was pretty much copy paste from stackoverflow, but forgot where from
+
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Create the File where the photo should go
         File photoFile = null;
         try {
             photoFile = createImageFile();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println(ex);
         }
         // Continue only if the File was successfully created
         if (photoFile != null) {
@@ -223,16 +227,19 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
     }
 
     private void deleteProfile() {
+        //If people dont like selfies, they go to this method
+
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         pref.edit().remove("profile").apply();
         mDrawerList.setAdapter(new SiteAdapter(mSiteTitles,
                 this,
-                Uri.parse("android.resource://" + getPackageName() + "/" + com.myvictoria.app.R.drawable.ic_contact_picture),
-                pref.getString("username", getString(com.myvictoria.app.R.string.no_username)),
-                pref.getString("subtitle", getString(com.myvictoria.app.R.string.no_subtitle))));
+                Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.ic_contact_picture),
+                pref.getString("username", getString(R.string.no_username)),
+                pref.getString("subtitle", getString(R.string.no_subtitle))));
     }
 
     private void openGallery() {
+        //Let the user chose a selfie from their internal storage
         Intent photoPickerIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         photoPickerIntent.setType("image/jpeg");
         startActivityForResult(photoPickerIntent, 1);
@@ -240,6 +247,8 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //Handle getting the photo back from the external application
+
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (data != null && resultCode == RESULT_OK) {
@@ -250,8 +259,8 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
                 mDrawerList.setAdapter(new SiteAdapter(mSiteTitles,
                         this,
                         selectedImage,
-                        pref.getString("username", getString(com.myvictoria.app.R.string.no_username)),
-                        pref.getString("subtitle", getString(com.myvictoria.app.R.string.no_subtitle))));
+                        pref.getString("username", getString(R.string.no_username)),
+                        pref.getString("subtitle", getString(R.string.no_subtitle))));
             }
         } else if(requestCode == 2){
             Uri selectedImage = Uri.fromFile(new File(mCurrentPhotoPath));
@@ -261,8 +270,8 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
             mDrawerList.setAdapter(new SiteAdapter(mSiteTitles,
                     this,
                     selectedImage,
-                    pref.getString("username", getString(com.myvictoria.app.R.string.no_username)),
-                    pref.getString("subtitle", getString(com.myvictoria.app.R.string.no_subtitle))));
+                    pref.getString("username", getString(R.string.no_username)),
+                    pref.getString("subtitle", getString(R.string.no_subtitle))));
         }
     }
 
@@ -292,10 +301,10 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
         mDrawerList.setAdapter(new SiteAdapter(mSiteTitles,
                 this,
                 (pref.getString("profile", "none").equals("none"))?
-                        Uri.parse("android.resource://" + getPackageName() + "/" + com.myvictoria.app.R.drawable.ic_contact_picture):
+                        Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.ic_contact_picture):
                         Uri.parse(pref.getString("profile", "none")),
-                pref.getString("username", getString(com.myvictoria.app.R.string.no_username)),
-                pref.getString("subtitle", getString(com.myvictoria.app.R.string.no_subtitle))));
+                pref.getString("username", getString(R.string.no_username)),
+                pref.getString("subtitle", getString(R.string.no_subtitle))));
         // enable ActionBar app icon to behave as action to toggle nav drawer
 
         // ActionBarDrawerToggle ties together the the proper interactions
@@ -304,8 +313,8 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
                 toolbar,
-                com.myvictoria.app.R.string.drawer_open,  /* "open drawer" description for accessibility */
-                com.myvictoria.app.R.string.drawer_close  /* "close drawer" description for accessibility */
+                R.string.drawer_open,  /* "open drawer" description for accessibility */
+                R.string.drawer_close  /* "close drawer" description for accessibility */
         ) {
             public void onDrawerClosed(View view) {
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
