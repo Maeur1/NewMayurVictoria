@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/MayurVictoria.iml" filepath="$PROJECT_DIR$/MayurVictoria.iml" />
       <module fileurl="file://$PROJECT_DIR$/NewMayurVictoria.iml" filepath="$PROJECT_DIR$/NewMayurVictoria.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
