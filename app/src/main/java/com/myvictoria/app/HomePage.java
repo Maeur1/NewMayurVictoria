@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -67,12 +68,13 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
     }
 
     @Override
-    protected void onPostResume() {
-        super.onPostResume();
+    protected void onResume() {
         if(getFragmentManager().findFragmentByTag("MAIN_FRAGMENT") == null){
+            Log.d("RESUMED", getFragmentManager().findFragmentByTag("MAIN_FRAGMENT").toString());
             fragmentManager = getFragmentManager();
-            selectItem(0);
+            insertFragment(0);
         }
+        super.onResume();
     }
 
     @Override
@@ -140,7 +142,7 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
         if (savedInstanceState == null) {
             //Start on the MyVictoria Portal
             fragmentManager = getFragmentManager();
-            selectItem(0);
+            insertFragment(0);
         } else {
             //Otherwise start on what was already remembered
             fragmentManager = getFragmentManager();
@@ -150,7 +152,7 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
         }
     }
 
-    private void selectItem(int position) {
+    private void insertFragment(int position) {
         // update the main content by replacing fragments, I know this is really crappy
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -204,7 +206,7 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
             builder.create().show();
         } else {
             //They have tapped a item from the drawer
-            selectItem(position - 1);
+            insertFragment(position - 1);
         }
     }
 

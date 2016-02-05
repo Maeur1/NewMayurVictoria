@@ -34,7 +34,7 @@ public class SetupFragment extends Fragment {
             case 2:
                 rootView = inflater.inflate(R.layout.fragment_setup_navigation,container, false);
                 CircleImageView circ = (CircleImageView) rootView.findViewById(R.id.circleView);
-                circ.setImageResource(R.drawable.setup_navigation1);
+                circ.setImageResource(R.drawable.setup_navigation);
                 break;
             default:
                 rootView = inflater.inflate(R.layout.fragment_setup_userpass, container, false);

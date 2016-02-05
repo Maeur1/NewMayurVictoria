@@ -42,9 +42,7 @@ public class InternetFragment extends Fragment {
 
 
     public boolean close(){
-        if(internet.getUrl().contains("wireless")){
-            return true;
-        } else if(backCounter > 0) {
+        if(backCounter > 0) {
             backCounter -= 3;
             internet.goBack();
             return false;
