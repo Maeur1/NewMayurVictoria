@@ -36,7 +36,6 @@ public class Setup extends AppCompatActivity implements View.OnClickListener{
     @Override
     protected void onPause() {
         super.onPause();
-        finish();
     }
 
     @Override

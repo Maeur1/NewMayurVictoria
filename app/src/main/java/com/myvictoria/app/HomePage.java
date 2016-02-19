@@ -69,10 +69,15 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
 
     @Override
     protected void onResume() {
-        if(getFragmentManager().findFragmentByTag("MAIN_FRAGMENT") == null){
-            Log.d("RESUMED", getFragmentManager().findFragmentByTag("MAIN_FRAGMENT").toString());
-            fragmentManager = getFragmentManager();
-            insertFragment(0);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        //This is to make sure that the drawer updates with new username, if the user changes it
+        pref.registerOnSharedPreferenceChangeListener(this);
+        if (pref.getBoolean("SETUP_REQUIRED", true)) {
+            if (getFragmentManager().findFragmentByTag("MAIN_FRAGMENT") == null) {
+                Log.d("RESUMED", getFragmentManager().findFragmentByTag("MAIN_FRAGMENT").toString());
+                fragmentManager = getFragmentManager();
+                insertFragment(0);
+            }
         }
         super.onResume();
     }
@@ -84,7 +89,7 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
         //This is to make sure that the drawer updates with new username, if the user changes it
         pref.registerOnSharedPreferenceChangeListener(this);
         //Check if the user needs to setup the app for first time use
-        if(pref.getBoolean("SETUP_REQUIRED", true)){
+        if (pref.getBoolean("SETUP_REQUIRED", true)) {
             Intent i = new Intent(this, Setup.class);
             startActivity(i);
         }
@@ -110,9 +115,9 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
         // set up the drawer's list view with items and click listener
         mDrawerList.setAdapter(new SiteAdapter(mSiteTitles,
                 this,
-                (pref.getString("profile", "none").equals("none"))?
-                        Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.ic_contact_picture):
-                Uri.parse(pref.getString("profile", "none")),
+                (pref.getString("profile", "none").equals("none")) ?
+                        Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.ic_contact_picture) :
+                        Uri.parse(pref.getString("profile", "none")),
                 pref.getString("username", getString(R.string.no_username)),
                 pref.getString("subtitle", getString(R.string.no_subtitle))));
 
@@ -264,7 +269,7 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
                         pref.getString("username", getString(R.string.no_username)),
                         pref.getString("subtitle", getString(R.string.no_subtitle))));
             }
-        } else if(requestCode == 2){
+        } else if (requestCode == 2) {
             Uri selectedImage = Uri.fromFile(new File(mCurrentPhotoPath));
 
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -302,8 +307,8 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
         // set up the drawer's list view with items and click listener
         mDrawerList.setAdapter(new SiteAdapter(mSiteTitles,
                 this,
-                (pref.getString("profile", "none").equals("none"))?
-                        Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.ic_contact_picture):
+                (pref.getString("profile", "none").equals("none")) ?
+                        Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.ic_contact_picture) :
                         Uri.parse(pref.getString("profile", "none")),
                 pref.getString("username", getString(R.string.no_username)),
                 pref.getString("subtitle", getString(R.string.no_subtitle))));
