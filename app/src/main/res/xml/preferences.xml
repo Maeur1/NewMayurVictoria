@@ -26,4 +26,11 @@
             android:inputType="textEmailSubject"/>
 
     </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Info">
+        <Preference
+            android:key="info"
+            android:title="About"
+            android:summary="@string/info_subline_settings"/>
+    </PreferenceCategory>
 </PreferenceScreen>

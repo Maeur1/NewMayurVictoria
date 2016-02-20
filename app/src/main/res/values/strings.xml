@@ -45,6 +45,7 @@
     <string name="no_subtitle">Subtitle Here</string>
     <string name="uni_subline_settings">for the University Website</string>
     <string name="app_subline_settings">for this app</string>
+    <string name="info_subline_settings">Who made this app?</string>
 
     <string name="username">Username</string>
     <string name="password">Password</string>
