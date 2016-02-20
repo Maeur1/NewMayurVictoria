@@ -56,4 +56,11 @@
 
     <string name="cancel">Cancel</string>
     <string name="profile_dialog_title">Profile Photo</string>
+
+    <string name="dialog_action_dismiss">Get out of here!</string>
+    <string name="dialog_message">This app was created by Mayur Panchal, A student of Victoria University of Wellington.\n\n
+                                Email: panchal.mayur2@gmail.com \n\n
+                                Source for the app: https://github.com/Maeur1/NewMayurVictoria\n\n
+                                Blog: mayur.nz\n\n
+                                Feel free to contact me for feedback or on improvements</string>
 </resources>
