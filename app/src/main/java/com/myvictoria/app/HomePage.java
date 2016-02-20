@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -38,12 +39,24 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
 
     FragmentManager fragmentManager;
     private String[] mSiteTitles;
+    private MenuItem launch, refresh;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Fragment webview = getFragmentManager().findFragmentById(R.id.content_frame);
-        if (webview instanceof InternetFragment) {
-            ((InternetFragment) webview).internet.reload();
+        String title = item.getTitle().toString();
+        if (title.equals(getText(R.string.action_search))) {
+            Fragment webview = getFragmentManager().findFragmentById(R.id.content_frame);
+            if (webview instanceof InternetFragment) {
+                ((InternetFragment) webview).internet.reload();
+            }
+        } else if (title.equals(getText(R.string.action_launch))) {
+            Fragment webview = getFragmentManager().findFragmentById(R.id.content_frame);
+            if (webview instanceof InternetFragment) {
+                String url = ((InternetFragment) webview).internet.getUrl();
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -52,6 +65,17 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_home_page, menu);
+
+        launch = menu.getItem(0);
+        refresh = menu.getItem(1);
+        Fragment webview = getFragmentManager().findFragmentById(R.id.content_frame);
+        if (webview instanceof InternetFragment) {
+            launch.setVisible(true);
+            refresh.setVisible(true);
+        } else {
+            launch.setVisible(false);
+            refresh.setVisible(false);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -167,14 +191,23 @@ public class HomePage extends AppCompatActivity implements SiteAdapter.OnItemCli
         } else {
             switch (position) {
                 case 1:
+                    launch.setVisible(false);
+                    refresh.setVisible(false);
                     ft.replace(R.id.content_frame, new MapFragment(), "MAIN_FRAGMENT");
                     break;
                 case 7:
+                    launch.setVisible(false);
+                    refresh.setVisible(false);
                     ft.replace(R.id.content_frame, new LectureFragment(), "MAIN_FRAGMENT");
                     break;
                 case 9:
+                    launch.setVisible(false);
+                    refresh.setVisible(false);
                     ft.replace(R.id.content_frame, new SettingsFragment(), "MAIN_FRAGMENT");
                     break;
+                default:
+                    launch.setVisible(true);
+                    refresh.setVisible(true);
             }
         }
         ft.commit();

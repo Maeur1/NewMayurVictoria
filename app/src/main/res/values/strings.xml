@@ -2,6 +2,7 @@
     <string name="app_name">Mayur Victoria</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_search">Search</string>
+    <string name="action_launch">Launch</string>
     <string-array name="site_array">
         <item></item>
         <item>MyVictoria</item>
