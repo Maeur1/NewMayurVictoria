@@ -16,12 +16,14 @@ import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -77,6 +79,35 @@ public class LectureFragment extends Fragment implements View.OnClickListener{
             response.setVisibility(View.VISIBLE);
             return false;
         }
+    }
+
+    private boolean processTime(Calendar currentTime, String s){
+        Calendar startTime = Calendar.getInstance();
+        switch (s.substring(s.lastIndexOf(" ")+1)){
+            case "Monday":
+                startTime.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+                break;
+            case "Tuesday":
+                startTime.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+                break;
+            case "Wednesday":
+                startTime.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+                break;
+            case "Thursday":
+                startTime.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+                break;
+            case "Friday":
+                startTime.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+                break;
+        }
+        String startOfLecture = s.substring(s.lastIndexOf(" ")-8, s.lastIndexOf(" ")-2);
+        startTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(startOfLecture.substring(0, 2).replaceAll("\\s","")));
+        startTime.set(Calendar.MINUTE, Integer.parseInt(startOfLecture.substring(3, 5).replaceAll("\\s","")));
+        if(startTime.get(Calendar.DAY_OF_WEEK) != currentTime.get(Calendar.DAY_OF_WEEK)){
+            return true;
+        }
+
+        return true;
     }
 
     private void searchLecture(){
@@ -148,13 +179,16 @@ public class LectureFragment extends Fragment implements View.OnClickListener{
             protected void onPostExecute(ArrayList<String> strings2) {
                 strings.clear();
                 strings.addAll(strings2);
+                Calendar currentTime = Calendar.getInstance();
                 for(String s: strings2) {
                     String firstword = s.substring(0, s.indexOf(" "));
                     if(!listDataHeader.contains(firstword)){
                         listDataHeader.add(firstword);
                         listDataChild.put(firstword, new ArrayList<String>());
                     }
-                    listDataChild.get(firstword).add(s.substring(firstword.length(), s.length()));
+                    if(processTime(currentTime, s.substring(firstword.length(), s.length()))) {
+                        listDataChild.get(firstword).add(s.substring(firstword.length(), s.length()));
+                    }
                 }
                 if (!found) {
                     response.setVisibility(View.VISIBLE);
