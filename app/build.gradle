@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "22.0.1"
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "com.myvictoria.app"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 16
-        versionName "1.2.3"
+        versionCode 17
+        versionName "1.2.4"
     }
     buildTypes {
         release {
